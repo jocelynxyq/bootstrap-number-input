@@ -43,6 +43,7 @@
 				}
 
 				clone.focus().val(n);
+				clone.trigger('change');
 				return true;
 			}
 
