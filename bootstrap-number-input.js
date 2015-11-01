@@ -36,7 +36,7 @@
 
 			var min = self.attr('min');
 			var max = self.attr('max');
-			var step = parseDouble(self.attr('step')) || 1;
+			var step = parseFloat(self.attr('step')) || 1;
 
 			function setText(n) {
 				if((min && n < min) || (max && n > max)) {
