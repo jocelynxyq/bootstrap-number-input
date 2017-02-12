@@ -27,32 +27,45 @@
 		var settings = $.extend({
 			upClass: 'default',
 			downClass: 'default',
-			center: true
+			center: true,
 			}, options );
+			
 
+			//console.log(settings);
 		return this.each(function(e) {
 			var self = $(this);
 			var clone = self.clone();
 
 			var min = self.attr('min');
 			var max = self.attr('max');
-			var step = parseFloat(self.attr('step')) || 1;
+			var step =settings.isInt? (parseInt(self.attr('step')) || 1) : (parseFloat(self.attr('step')) || 1);
 
 			function setText(n) {
 				if((min && n < min) || (max && n > max)) {
 					return false;
 				}
-
+				if(!settings.isInt)
+				{
+					n=n.toFixed(2)
+				};
 				clone.focus().val(n);
 				return true;
 			}
 
 			var group = $("<div class='input-group'></div>");
 			var down = $("<button type='button'>-</button>").attr('class', 'btn btn-' + settings.downClass).click(function() {
-				setText(parseFloat(clone.val()) - step);
+				if(settings.isInt){
+					setText(parseInt(clone.val()) - step);
+				}else{
+					setText(parseFloat(clone.val()) - step);
+				}
 			});
 			var up = $("<button type='button'>+</button>").attr('class', 'btn btn-' + settings.upClass).click(function() {
-				setText(parseFloat(clone.val()) + step);
+				if(settings.isInt){
+					setText(parseInt(clone.val()) + step);
+				}else{
+					setText(parseFloat(clone.val()) + step);
+				}
 			});
 			$("<span class='input-group-btn'></span>").append(down).appendTo(group);
 			clone.appendTo(group);
@@ -73,7 +86,7 @@
 				}
 
 				var c = String.fromCharCode(e.which);
-				var n = parseFloat(clone.val() + c);
+				var n = settings.isInt? parseInt(clone.val() + c) : parseFloat(clone.val() + c);
 
 				if((min && n < min) || (max && n > max)) {
 					e.preventDefault();
