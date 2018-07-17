@@ -49,6 +49,7 @@
 					n=n.toFixed(2)
 				};
 				clone.focus().val(n);
+				clone.trigger('change');
 				return true;
 			}
 
